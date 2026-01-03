@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "AlgoRecall - Spaced Repetition",
+  "version": "1.0.0",
+  "description": "Master algorithms with cross-platform spaced repetition.",
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://leetcode.com/*",
+    "https://codeforces.com/*",
+    "https://atcoder.jp/*",
+    "https://codechef.com/*",
+    "https://www.codechef.com/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "AlgoRecall"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://leetcode.com/*",
+        "https://codeforces.com/*",
+        "https://atcoder.jp/*",
+        "https://codechef.com/*",
+        "https://www.codechef.com/*"
+      ],
+      "js": ["src/content/index.ts"]
+    }
+  ]
+}
