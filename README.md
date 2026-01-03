@@ -1,74 +1,162 @@
-# React + TypeScript + Vite
+# AlgoRecall - Spaced Repetition for Competitive Programming
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="public/icons/icon128.png" alt="AlgoRecall Logo" width="128" height="128">
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  <strong>Master algorithms with cross-platform spaced repetition.</strong>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="center">
+  <a href="#features">Features</a> •
+  <a href="#supported-platforms">Platforms</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#how-it-works">How It Works</a> •
+  <a href="#development">Development</a>
+</p>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧠 What is AlgoRecall?
 
-## Expanding the ESLint configuration
+AlgoRecall is a Chrome extension that helps you **retain algorithm knowledge** using spaced repetition. When you solve a problem on LeetCode, Codeforces, AtCoder, or CodeChef, AlgoRecall detects your success and schedules it for future review.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Stop re-learning the same patterns.** Build lasting knowledge.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## ✨ Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- 🔍 **Auto-Detection** - Automatically detects when you solve a problem
+- 📅 **Smart Scheduling** - Spaced repetition intervals (3 → 7 → 21 days)
+- 🏷️ **Tag Tracking** - Organizes problems by topic/tag
+- 🔥 **Streak Counter** - Stay motivated with daily streaks
+- 📊 **Insights Dashboard** - See your backlog by topic
+- 🔎 **Search & Filter** - Find problems by name, platform, or tag
+
+---
+
+## 🌐 Supported Platforms
+
+| Platform | Detection | Tags |
+|----------|-----------|------|
+| [LeetCode](https://leetcode.com) | ✅ | ✅ |
+| [Codeforces](https://codeforces.com) | ✅ | ✅ |
+| [AtCoder](https://atcoder.jp) | ✅ | ❌ |
+| [CodeChef](https://codechef.com) | ✅ | ✅ |
+
+---
+
+## 📦 Installation
+
+### From Source
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/AlgoRecall.git
+   cd AlgoRecall
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Build the extension**
+   ```bash
+   npm run build
+   ```
+
+4. **Load in Chrome**
+   - Go to `chrome://extensions`
+   - Enable **Developer mode** (top right)
+   - Click **Load unpacked**
+   - Select the `dist` folder
+
+---
+
+## 🔄 How It Works
+
+### Spaced Repetition Schedule
+
+When you solve a problem, it enters the review queue:
+
+| Stage | Interval | Action |
+|-------|----------|--------|
+| 1 | 3 days | First review |
+| 2 | 7 days | Second review |
+| 3 | 21 days | Final review |
+| ✅ | — | Mastered! Removed from queue |
+
+### Workflow
+
+1. **Solve** a problem on any supported platform
+2. **Toast appears** → Click "Add to Schedule"
+3. **Review** when due via the extension popup
+4. **Mark complete** → Advances to next stage
+
+---
+
+## 🛠️ Development
+
+### Tech Stack
+
+- **React 19** + **TypeScript**
+- **Vite** + **@crxjs/vite-plugin**
+- **Tailwind CSS**
+- **Chrome Extension Manifest V3**
+
+### Commands
+
+```bash
+# Development (hot reload)
+npm run dev
+
+# Production build
+npm run build
+
+# Lint
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
-# AlgoRecall
+src/
+├── App.tsx              # Main popup UI
+├── main.tsx             # React entry point
+├── manifest.json        # Extension manifest
+├── background/
+│   └── index.ts         # Service worker (storage, scheduling)
+└── content/
+    ├── index.ts         # Content script (detection, toast)
+    └── adapters/
+        ├── base.ts      # Abstract adapter class
+        ├── leetcode.ts  # LeetCode detection
+        ├── codeforces.ts
+        ├── atcoder.ts
+        └── codechef.ts
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+- Add support for new platforms
+- Improve detection accuracy
+- Enhance the UI/UX
+
+---
+
+## 📄 License
+
+MIT © 2026
+
+---
+
+<p align="center">
+  <strong>Learn once. Remember forever.</strong>
+</p>
